@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Notes App</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #eef2f7;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 500px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+    }
+
+    input {
+      width: 90%;
+      padding: 10px;
+      margin: 8px 0;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      padding: 10px 20px;
+      background: #0077ff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #005fd1;
+    }
+
+    .note {
+      background: #f9f9f9;
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 6px;
+      text-align: left;
+      border-left: 4px solid #0077ff;
+    }
+
+    .note b {
+      display: block;
+      margin-bottom: 5px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <h1>📝 Notes App</h1>
+
+    <input id="title" placeholder="Enter title">
+    <input id="content" placeholder="Enter content">
+    <br>
+    <button onclick="addNote()">Add Note</button>
+
+    <h3>Your Notes</h3>
+    <div id="notes"></div>
+  </div>
+
+  <script>
+    async function addNote() {
+      const title = document.getElementById("title").value;
+      const content = document.getElementById("content").value;
+
+      if (!title || !content) {
+        alert("Please fill all fields");
+        return;
+      }
+
+      await fetch("/notes", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ title, content })
+      });
+
+      document.getElementById("title").value = "";
+      document.getElementById("content").value = "";
+
+      loadNotes();
+    }
+
+    async function loadNotes() {
+      const res = await fetch("/notes");
+      const data = await res.json();
+
+      document.getElementById("notes").innerHTML =
+        data.map(n => `
+      <div class="note">
+        <b>${n.title}</b>
+        ${n.content}
+      </div>
+    `).join("");
+    }
+
+    loadNotes();
+  </script>
+
+</body>
+
+</html>
