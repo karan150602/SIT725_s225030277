@@ -1,0 +1,14 @@
+{
+  "name": "sit725-5.2p-books-catalog",
+  "version": "1.0.0",
+  "description": "Books catalog using MVC strategy",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "author": "Karanpreet Singh",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}
