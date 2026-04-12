@@ -8,7 +8,7 @@ app.use(express.json());
 app.use(express.static(__dirname));
 
 // Connect MongoDB
-mongoose.connect("mongodb://<username>:<password>@cluster0-shard-00-00.cwy7u.mongodb.net:27017") //mongodb credentials hidden in github
+mongoose.connect("mongodb+srv://karanDeakin:Wahla%40150602@cluster0.cwy7u.mongodb.net/booksdb?retryWrites=true&w=majority")
 .then(() => console.log("MongoDB connected"))
 .catch(err => console.log(err));
 

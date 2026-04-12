@@ -1,0 +1,16 @@
+{
+  "name": "sit725-5.3c-books-catalog",
+  "version": "1.0.0",
+  "description": "Books catalog MVC + MongoDB",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "seed": "node seed.js"
+  },
+  "author": "Karanpreet Singh",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.2",
+    "mongoose": "^8.5.1"
+  }
+}
