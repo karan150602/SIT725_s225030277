@@ -8,7 +8,7 @@ app.use(express.json());
 app.use(express.static(__dirname));
 
 // Connect MongoDB
-mongoose.connect("mongodb+srv://karanDeakin:Wahla%40150602@cluster0.cwy7u.mongodb.net/booksdb?retryWrites=true&w=majority")
+mongoose.connect("mongodb+srv:")
 .then(() => console.log("MongoDB connected"))
 .catch(err => console.log(err));
 
