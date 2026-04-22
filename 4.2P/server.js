@@ -8,7 +8,7 @@ app.use(express.json());
 app.use(express.static(__dirname));
 
 // Connect MongoDB
-mongoose.connect("mongodb+srv://SIT725:karanDeakin@cluster0.cwy7u.mongodb.net/")
+mongoose.connect("mongodb://127.0.0.1:27017/NoteDataBase")
 .then(() => console.log("MongoDB connected"))
 .catch(err => console.log(err));
 
