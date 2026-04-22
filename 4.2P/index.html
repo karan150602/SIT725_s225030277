@@ -1,87 +1,129 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-  <title>Notes App</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Study Resources App</title>
   <style>
     body {
       font-family: Arial, sans-serif;
       background: #eef2f7;
       margin: 0;
-      padding: 20px;
+      padding: 0;
     }
 
-    .container {
-      max-width: 500px;
-      margin: auto;
+    .header {
+      background: #1976d2;
+      color: white;
+      text-align: center;
+      padding: 30px 20px;
+    }
+
+    .header h1 {
+      margin: 0;
+      font-size: 32px;
+    }
+
+    .header p {
+      margin-top: 8px;
+      font-size: 15px;
+    }
+
+    .form-container {
+      max-width: 700px;
+      margin: 30px auto 10px;
       background: white;
       padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      text-align: center;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
 
-    h1 {
-      margin-bottom: 20px;
-    }
-
-    input {
-      width: 90%;
-      padding: 10px;
+    .form-container input {
+      width: 100%;
+      padding: 12px;
       margin: 8px 0;
-      border-radius: 5px;
       border: 1px solid #ccc;
+      border-radius: 8px;
+      box-sizing: border-box;
     }
 
-    button {
-      padding: 10px 20px;
-      background: #0077ff;
+    .form-container button {
+      background: #1976d2;
       color: white;
       border: none;
-      border-radius: 5px;
+      padding: 12px 18px;
+      border-radius: 8px;
       cursor: pointer;
-    }
-
-    button:hover {
-      background: #005fd1;
-    }
-
-    .note {
-      background: #f9f9f9;
       margin-top: 10px;
-      padding: 10px;
-      border-radius: 6px;
-      text-align: left;
-      border-left: 4px solid #0077ff;
     }
 
-    .note b {
+    .form-container button:hover {
+      background: #1259a7;
+    }
+
+    .cards-container {
+      max-width: 1100px;
+      margin: 30px auto;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+      padding: 0 20px 30px;
+    }
+
+    .card {
+      background: white;
+      width: 280px;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+    }
+
+    .card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
       display: block;
-      margin-bottom: 5px;
+    }
+
+    .card-content {
+      padding: 15px;
+    }
+
+    .card-content h3 {
+      margin: 0 0 10px;
+      font-size: 20px;
+    }
+
+    .card-content p {
+      margin: 6px 0;
+      color: #333;
     }
   </style>
 </head>
-
 <body>
 
-  <div class="container">
-    <h1>📝 Notes App</h1>
-
-    <input id="title" placeholder="Enter title">
-    <input id="content" placeholder="Enter content">
-    <br>
-    <button onclick="addNote()">Add Note</button>
-
-    <h3>Your Notes</h3>
-    <div id="notes"></div>
+  <div class="header">
+    <h1>Study Resources App</h1>
+    <p>Week 4 project using Node.js, Express, MongoDB and REST API</p>
   </div>
+
+  <div class="form-container">
+    <input type="text" id="title" placeholder="Enter resource title">
+    <input type="text" id="content" placeholder="Enter description / subject / difficulty">
+    <input type="text" id="image" placeholder="Enter image URL">
+    <button onclick="addNote()">Add Resource</button>
+  </div>
+
+  <div class="cards-container" id="notes"></div>
 
   <script>
     async function addNote() {
       const title = document.getElementById("title").value;
       const content = document.getElementById("content").value;
+      const image = document.getElementById("image").value;
 
-      if (!title || !content) {
+      if (!title || !content || !image) {
         alert("Please fill all fields");
         return;
       }
@@ -89,11 +131,12 @@
       await fetch("/notes", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ title, content })
+        body: JSON.stringify({ title, content, image })
       });
 
       document.getElementById("title").value = "";
       document.getElementById("content").value = "";
+      document.getElementById("image").value = "";
 
       loadNotes();
     }
@@ -102,18 +145,19 @@
       const res = await fetch("/notes");
       const data = await res.json();
 
-      document.getElementById("notes").innerHTML =
-        data.map(n => `
-      <div class="note">
-        <b>${n.title}</b>
-        ${n.content}
-      </div>
-    `).join("");
+      document.getElementById("notes").innerHTML = data.map(n => `
+        <div class="card">
+          <img src="${n.image}" alt="${n.title}">
+          <div class="card-content">
+            <h3>${n.title}</h3>
+            <p>${n.content}</p>
+          </div>
+        </div>
+      `).join("");
     }
 
     loadNotes();
   </script>
 
 </body>
-
 </html>

@@ -8,14 +8,15 @@ app.use(express.json());
 app.use(express.static(__dirname));
 
 // Connect MongoDB
-mongoose.connect("mongodb+srv:")
+mongoose.connect("mongodb+srv://SIT725:karanDeakin@cluster0.cwy7u.mongodb.net/")
 .then(() => console.log("MongoDB connected"))
 .catch(err => console.log(err));
 
-// Simple schema
+// Schema
 const Note = mongoose.model("Note", {
   title: String,
-  content: String
+  content: String,
+  image: String
 });
 
 // Get all notes
@@ -30,7 +31,6 @@ app.post("/notes", async (req, res) => {
   res.send("Note added successfully");
 });
 
-// Start server
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
